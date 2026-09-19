@@ -57,13 +57,11 @@ layout: null
                 </a>
                 
                 <!-- 데스크톱 전용 메뉴 (md 스크린 이상에서 표시) -->
+                <!-- 메뉴 항목은 _data/portfolio.yml 의 nav 목록에서 관리합니다 -->
                 <nav class="hidden md:flex space-x-8 text-sm font-semibold">
-                    <a href="javascript:void(0)" onclick="showPage('home')" class="nav-link active py-2 transition-all hover:text-primary-600" id="nav-home">Home</a>
-                    <a href="javascript:void(0)" onclick="showPage('about')" class="nav-link py-2 transition-all hover:text-primary-600" id="nav-about">About</a>
-                    <a href="javascript:void(0)" onclick="showPage('research')" class="nav-link py-2 transition-all hover:text-primary-600" id="nav-research">Research</a>
-                    <a href="javascript:void(0)" onclick="showPage('publications')" class="nav-link py-2 transition-all hover:text-primary-600" id="nav-publications">Publications</a>
-                    <a href="javascript:void(0)" onclick="showPage('teaching')" class="nav-link py-2 transition-all hover:text-primary-600" id="nav-teaching">Teaching</a>
-                    <a href="javascript:void(0)" onclick="showPage('contact')" class="nav-link py-2 transition-all hover:text-primary-600" id="nav-contact">Contact</a>
+                    {% for item in site.data.portfolio.nav %}
+                    <a href="javascript:void(0)" onclick="showPage('{{ item.id }}')" class="nav-link py-2 transition-all hover:text-primary-600{% if item.id == 'home' %} active{% endif %}" id="nav-{{ item.id }}">{{ item.label }}</a>
+                    {% endfor %}
                 </nav>
 
                 <!-- 모바일 전용 토글 버튼 (클릭 영역 및 반응성 확보) -->
@@ -74,13 +72,11 @@ layout: null
         </div>
 
         <!-- 모바일 드롭다운 메뉴 (기본 숨김, JS로 제어) -->
+        <!-- 메뉴 항목은 _data/portfolio.yml 의 nav 목록에서 관리합니다 -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-primary-100 px-4 pt-2 pb-6 space-y-1 shadow-xl absolute w-full top-16 left-0 transition-all duration-300">
-            <a href="javascript:void(0)" onclick="showPage('home')" class="mobile-nav-link active block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50" id="mob-nav-home">Home</a>
-            <a href="javascript:void(0)" onclick="showPage('about')" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50" id="mob-nav-about">About</a>
-            <a href="javascript:void(0)" onclick="showPage('research')" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50" id="mob-nav-research">Research</a>
-            <a href="javascript:void(0)" onclick="showPage('publications')" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50" id="mob-nav-publications">Publications</a>
-            <a href="javascript:void(0)" onclick="showPage('teaching')" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50" id="mob-nav-teaching">Teaching</a>
-            <a href="javascript:void(0)" onclick="showPage('contact')" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50" id="mob-nav-contact">Contact</a>
+            {% for item in site.data.portfolio.nav %}
+            <a href="javascript:void(0)" onclick="showPage('{{ item.id }}')" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50{% if item.id == 'home' %} active{% endif %}" id="mob-nav-{{ item.id }}">{{ item.label }}</a>
+            {% endfor %}
         </div>
     </header>
 
@@ -97,13 +93,19 @@ layout: null
                     <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
                         {{ site.data.portfolio.profile.home_description }}
                     </p>
+                    <!-- 버튼은 _data/portfolio.yml 의 hero_buttons 목록에서 관리합니다 -->
                     <div class="flex justify-center md:justify-start gap-4">
-                        <button onclick="showPage('research')" class="bg-primary-600 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 text-sm">
-                            연구분야 보기
+                        {% for btn in site.data.portfolio.hero_buttons %}
+                        {% if forloop.first %}
+                        <button onclick="showPage('{{ btn.target }}')" class="bg-primary-600 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 text-sm">
+                            {{ btn.label }}
                         </button>
-                        <button onclick="showPage('about')" class="border-2 border-primary-600 text-primary-600 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:bg-primary-50 transition-all text-sm">
-                            자기소개
+                        {% else %}
+                        <button onclick="showPage('{{ btn.target }}')" class="border-2 border-primary-600 text-primary-600 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:bg-primary-50 transition-all text-sm">
+                            {{ btn.label }}
                         </button>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="relative max-w-sm mx-auto md:max-w-none">
@@ -124,14 +126,12 @@ layout: null
                     </div>
                     <h2 class="text-2xl font-bold text-slate-900">{{ site.data.portfolio.profile.english_name }}</h2>
                     <p class="text-primary-700 font-medium italic text-sm">{{ site.data.portfolio.profile.title }}</p>
+                    <!-- 버튼은 _data/portfolio.yml 의 profile.links 목록에서 관리합니다 -->
                     <div class="flex justify-center gap-3">
-                        {% if site.data.portfolio.profile.github_url %}
-                        <a href="{{ site.data.portfolio.profile.github_url }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-100"><i class="fa-brands fa-github"></i></a>
-                        {% endif %}
-                        {% if site.data.portfolio.profile.scholar_url %}
-                        <a href="{{ site.data.portfolio.profile.scholar_url }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-100"><i class="fa-solid fa-graduation-cap"></i></a>
-                        {% endif %}
-                        <a href="mailto:{{ site.data.portfolio.profile.email }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-100"><i class="fa-solid fa-envelope"></i></a>
+                        {% for link in site.data.portfolio.profile.links %}
+                        <a href="{{ link.url }}" target="_blank" title="{{ link.label }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-100"><i class="{{ link.icon }}"></i></a>
+                        {% endfor %}
+                        <a href="mailto:{{ site.data.portfolio.profile.email }}" title="Email" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-100"><i class="fa-solid fa-envelope"></i></a>
                     </div>
                 </div>
                 <div class="w-full md:w-2/3 space-y-6">
