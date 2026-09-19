@@ -1,4 +1,4 @@
-# samisuperstars.github.io
+# GDLab.github.io
 
 samisuperstars.github.io
 개인 홈페이지입니다. HTML/CSS를 몰라도 _data/portfolio.yml 파일만 수정하면 대부분의 내용을 바꿀 수 있도록 만들어져 있습니다.
