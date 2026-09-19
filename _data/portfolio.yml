@@ -6,35 +6,6 @@ site_settings:
 
 
 # =========================================================
-# 0-1. 메뉴 & 버튼 구성 (상단 메뉴, 홈 화면 버튼)
-# =========================================================
-# id는 아래 각 섹션(About, Research 등)과 연결되는 이름이라 함부로 바꾸면 링크가 깨집니다.
-# 사용 가능한 id: home, about, research, publications, teaching, contact
-# 순서를 바꾸거나 label(화면에 보이는 글자)을 바꾸는 것은 자유롭게 가능합니다.
-nav:
-  - id: "home"
-    label: "Home"
-  - id: "about"
-    label: "About"
-  - id: "research"
-    label: "Research"
-  - id: "publications"
-    label: "Publications"
-  - id: "teaching"
-    label: "Teaching"
-  - id: "contact"
-    label: "Contact"
-
-# 홈 화면 상단의 버튼들. target은 위 nav의 id 중 하나로 연결됩니다.
-# 버튼을 추가/삭제하려면 이 목록에 항목을 추가/삭제하면 됩니다.
-hero_buttons:
-  - label: "연구분야 보기"
-    target: "research"
-  - label: "자기소개"
-    target: "about"
-
-
-# =========================================================
 # 1. 인적 사항 및 기본 정보 (Home & About)
 # =========================================================
 profile:
@@ -45,25 +16,15 @@ profile:
   university: "전남대학교"
   location: "공학1A관 412호"
   email: "samkim@jnu.ac.kr"
-
+  
   # 사진 경로 (assets/images/ 폴더 기준)
   profile_image: "/assets/images/profile.jpg"
   home_lab_image: "/assets/images/lab.jpg"
-
-  # 소셜/학술/추가 버튼 링크 (About 화면 프로필 아래 동그란 아이콘 버튼들)
-  # icon은 Font Awesome 아이콘 이름입니다 (https://fontawesome.com/icons 에서 검색)
-  # 버튼을 추가하려면 아래처럼 한 칸을 더 추가하면 됩니다. 예) CV 파일 버튼
-  #   - icon: "fa-solid fa-file-arrow-down"
-  #     label: "CV"
-  #     url: "/assets/cv.pdf"
-  links:
-    - icon: "fa-brands fa-github"
-      label: "GitHub"
-      url: "https://github.com"
-    - icon: "fa-solid fa-graduation-cap"
-      label: "Google Scholar"
-      url: "https://scholar.google.com/citations?user=YUBP7XcAAAAJ&hl=en"
-
+  
+  # 소셜/학술 링크
+  github_url: "https://github.com"
+  scholar_url: "https://scholar.google.com/citations?user=YUBP7XcAAAAJ&hl=en"
+  
   # 홈 메인 문구
   hero_title: "Advancing Sustainable Engineering through Innovation."
   home_description: "이 홈페이지는 지속 가능한 제품 설계와 적층 제조(DfAM)를 연구하는 김삼연 교수의 연구 포트폴리오입니다. 시스템 복잡성을 낮추고 생애주기 효율을 높이는 최신 연구 성과와 교육 활동을 공유합니다."
@@ -81,14 +42,22 @@ profile:
 # =========================================================
 # 2. 연구 분야 (Research)
 # =========================================================
+# diagram: assets/images/research/ 안의 svg 파일 경로입니다. 비워두면 다이어그램 없이 글만 표시됩니다.
 researches:
-  - title: "Modular Platform Design"
-    icon: "fa-layer-group" # FontAwesome 아이콘 이름
-    description: "다양한 소비자 요구를 충족하면서도 비용을 절감할 수 있는 제품군 플랫폼 설계 전략 및 최적화 연구."
+  - title: "제품 설계 & 시스템 아키텍처"
+    icon: "fa-diagram-project" # FontAwesome 아이콘 이름
+    description: "제품을 하나의 '시스템'으로 보고, 개발 초기 단계에서 발생하는 복잡성을 정량화하고 관리하는 방법론을 연구합니다. 생애주기 전반(생산·사용·서비스·재활용)에서 도출한 기준으로 부품을 체계적으로 모듈화해, 다양한 고객 요구는 만족시키면서도 복잡성과 비용은 낮추는 제품 아키텍처를 설계합니다."
+    diagram: "/assets/images/research/diagram-1-architecture.svg"
 
-  - title: "DfAM Integration"
-    icon: "fa-cubes"
-    description: "적층 제조의 설계 자유도를 극대화하여 부품 통합 및 경량화를 실현하는 차세대 DfAM 방법론."
+  - title: "시스템 레벨 설계자동화 & 자율제조"
+    icon: "fa-robot"
+    description: "적층 제조(3D프린팅)를 비롯한 차세대 제조를 위한 설계 자동화를 연구합니다. 형상 자체를 정교하게 다루는 지오메트릭 모델링(위상최적화, 메쉬 처리 등)보다는, \"어떤 부품을 통합해야 하는지, 어떤 구조가 제품 전체 성능에 유리한지\"와 같은 시스템 레벨의 설계 판단을 AI로 자동화(AX)하는 데 집중합니다. 궁극적으로는 사람의 개입을 최소화한 자율제조(Autonomous Manufacturing)를 지향합니다."
+    diagram: "/assets/images/research/diagram-2-automation.svg"
+
+  - title: "설계 지식베이스 & 암묵지 데이터화"
+    icon: "fa-brain"
+    description: "숙련된 엔지니어의 경험과 노하우(암묵지)를 온톨로지·지식그래프 형태로 구조화하여, 컴퓨터가 이해하고 재사용할 수 있는 데이터로 전환(DX)하는 연구입니다. 이렇게 쌓인 설계 지식은 제조 현장에 AI를 접목하는 M.AX(Manufacturing AI Transformation)로 이어져, 사람의 암묵지가 AI의 의사결정 역량으로 확장되는 것을 목표로 합니다."
+    diagram: "/assets/images/research/diagram-3-knowledge.svg"
 
 # =========================================================
 # 3. 논문 및 실적 (Publications)
