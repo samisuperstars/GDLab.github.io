@@ -180,17 +180,32 @@ layout: null
 
         <!-- RESEARCH SECTION -->
         <section id="research" class="page-section">
-            <h2 class="font-serif italic text-2xl sm:text-3xl text-slate-900 mb-8 flex items-center gap-3">
+            <h2 class="font-serif italic text-2xl sm:text-3xl text-slate-900 mb-4 flex items-center gap-3">
                 <i class="fa-solid fa-microscope text-primary-600 text-xl not-italic"></i> Research Focus
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- 연구 범위 (세 분야가 만나는 지점) -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-6 mb-10">
+                <img src="{{ '/assets/images/research/research-scope.svg' | relative_url }}" alt="공학설계, 시스템 공학, 지속가능성이 만나는 지점을 보여주는 벤 다이어그램" class="w-full max-w-xl mx-auto h-auto">
+            </div>
+
+            <div class="space-y-10">
                 {% for res in site.data.portfolio.researches %}
                 <div class="group bg-white p-6 sm:p-8 rounded-xl border border-slate-200 hover:border-primary-300 transition-all hover:shadow-md">
-                    <div class="w-12 h-12 bg-primary-50 text-primary-700 rounded-lg flex items-center justify-center mb-4 text-2xl">
-                        <i class="fa-solid {{ res.icon }}"></i>
+                    <div class="flex items-start gap-4 mb-5">
+                        <div class="w-12 h-12 shrink-0 bg-primary-50 text-primary-700 rounded-lg flex items-center justify-center text-2xl">
+                            <i class="fa-solid {{ res.icon }}"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">{{ res.title }}</h3>
+                            <p class="text-slate-600 text-sm sm:text-base mt-1">{{ res.description }}</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-slate-900">{{ res.title }}</h3>
-                    <p class="text-slate-600 text-sm sm:text-base">{{ res.description }}</p>
+                    {% if res.diagram %}
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 sm:p-5 overflow-x-auto">
+                        <img src="{{ res.diagram | relative_url }}" alt="{{ res.title }} 연구 흐름을 보여주는 다이어그램" class="w-full min-w-[520px] h-auto">
+                    </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
