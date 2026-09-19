@@ -7,28 +7,37 @@ layout: null
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ site.data.portfolio.profile.english_name }} | Academic Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              serif: ['Newsreader', 'ui-serif', 'Georgia'],
+            },
             colors: {
               primary: {
                 50: '#f0fdf4',
                 100: '#dcfce7',
+                200: '#bbf7d0',
                 500: '#10b981',
                 600: '#059669',
                 700: '#047857',
                 800: '#065f46',
+                900: '#064e3b',
               }
             },
             animation: {
-              'fade-in': 'fadeIn 0.4s ease-out forwards',
-              'slide-up': 'slideUp 0.5s ease-out forwards',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'slide-up': 'slideUp 0.4s ease-out forwards',
             },
             keyframes: {
               fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-              slideUp: { '0%': { transform: 'translateY(15px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }
+              slideUp: { '0%': { transform: 'translateY(10px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }
             }
           }
         }
@@ -37,82 +46,98 @@ layout: null
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .page-section { display: none; }
-        .page-section.active { display: block; animation: slideUp 0.5s ease-out; }
-        .nav-link.active { color: #10b981; border-bottom: 2px solid #10b981; }
-        .mobile-nav-link.active { color: #10b981; background-color: #f0fdf4; font-weight: 700; }
+        .page-section.active { display: block; animation: slide-up 0.4s ease-out; }
+        .nav-link { border-bottom: 2px solid transparent; }
+        .nav-link.active { color: #047857; border-bottom-color: #059669; }
+        .mobile-nav-link.active { color: #047857; background-color: #f0fdf4; font-weight: 700; }
+        .kicker { letter-spacing: 0.1em; }
     </style>
 </head>
-<body class="bg-primary-50 text-slate-800 font-sans relative">
+<body class="bg-white text-slate-800 font-sans">
 
-    <!-- 1. 인터랙티브 배경 Canvas -->
-    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-30"></canvas>
-
-    <!-- 2. 상단 네비게이션 바 (고정형 및 모바일 완벽 대응) -->
-    <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-primary-100 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- 상단 네비게이션 바 -->
+    <header class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-slate-200 z-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- 로고 -->
-                <a href="javascript:void(0)" onclick="showPage('home')" class="font-bold text-xl text-primary-700 tracking-tighter flex items-center gap-2 z-50">
-                    <i class="fa-solid fa-leaf text-primary-500"></i> {{ site.data.portfolio.site_settings.lab_name }}
+                <a href="javascript:void(0)" onclick="showPage('home')" class="font-bold text-lg text-slate-900 tracking-tight flex items-center gap-2 z-50">
+                    <i class="fa-solid fa-leaf text-primary-600"></i> {{ site.data.portfolio.site_settings.lab_name }}
                 </a>
-                
-                <!-- 데스크톱 전용 메뉴 (md 스크린 이상에서 표시) -->
-                <!-- 메뉴 항목은 _data/portfolio.yml 의 nav 목록에서 관리합니다 -->
-                <nav class="hidden md:flex space-x-8 text-sm font-semibold">
-                    {% for item in site.data.portfolio.nav %}
-                    <a href="javascript:void(0)" onclick="showPage('{{ item.id }}')" class="nav-link py-2 transition-all hover:text-primary-600{% if item.id == 'home' %} active{% endif %}" id="nav-{{ item.id }}">{{ item.label }}</a>
-                    {% endfor %}
+
+                <!-- 데스크톱 전용 메뉴 -->
+                <nav class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="javascript:void(0)" onclick="showPage('home')" class="nav-link active py-2 transition-all hover:text-primary-700" id="nav-home">Home</a>
+                    <a href="javascript:void(0)" onclick="showPage('about')" class="nav-link py-2 transition-all hover:text-primary-700" id="nav-about">About</a>
+                    <a href="javascript:void(0)" onclick="showPage('research')" class="nav-link py-2 transition-all hover:text-primary-700" id="nav-research">Research</a>
+                    <a href="javascript:void(0)" onclick="showPage('publications')" class="nav-link py-2 transition-all hover:text-primary-700" id="nav-publications">Publications</a>
+                    <a href="javascript:void(0)" onclick="showPage('teaching')" class="nav-link py-2 transition-all hover:text-primary-700" id="nav-teaching">Teaching</a>
+                    <a href="javascript:void(0)" onclick="showPage('contact')" class="nav-link py-2 transition-all hover:text-primary-700" id="nav-contact">Contact</a>
                 </nav>
 
-                <!-- 모바일 전용 토글 버튼 (클릭 영역 및 반응성 확보) -->
-                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600 hover:text-primary-600 focus:outline-none z-50" aria-label="Toggle Menu">
+                <!-- 모바일 전용 토글 버튼 -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600 hover:text-primary-700 focus:outline-none z-50" aria-label="Toggle Menu">
                     <i id="menu-icon" class="fa-solid fa-bars text-2xl transition-transform duration-300"></i>
                 </button>
             </div>
         </div>
 
-        <!-- 모바일 드롭다운 메뉴 (기본 숨김, JS로 제어) -->
-        <!-- 메뉴 항목은 _data/portfolio.yml 의 nav 목록에서 관리합니다 -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-primary-100 px-4 pt-2 pb-6 space-y-1 shadow-xl absolute w-full top-16 left-0 transition-all duration-300">
-            {% for item in site.data.portfolio.nav %}
-            <a href="javascript:void(0)" onclick="showPage('{{ item.id }}')" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-50{% if item.id == 'home' %} active{% endif %}" id="mob-nav-{{ item.id }}">{{ item.label }}</a>
-            {% endfor %}
+        <!-- 모바일 드롭다운 메뉴 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-1 shadow-lg absolute w-full top-16 left-0 transition-all duration-300">
+            <a href="javascript:void(0)" onclick="showPage('home')" class="mobile-nav-link active block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50" id="mob-nav-home">Home</a>
+            <a href="javascript:void(0)" onclick="showPage('about')" class="mobile-nav-link block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50" id="mob-nav-about">About</a>
+            <a href="javascript:void(0)" onclick="showPage('research')" class="mobile-nav-link block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50" id="mob-nav-research">Research</a>
+            <a href="javascript:void(0)" onclick="showPage('publications')" class="mobile-nav-link block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50" id="mob-nav-publications">Publications</a>
+            <a href="javascript:void(0)" onclick="showPage('teaching')" class="mobile-nav-link block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50" id="mob-nav-teaching">Teaching</a>
+            <a href="javascript:void(0)" onclick="showPage('contact')" class="mobile-nav-link block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50" id="mob-nav-contact">Contact</a>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 min-h-screen relative z-10">
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 min-h-screen">
 
         <!-- HOME SECTION -->
         <section id="home" class="page-section active">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-4">
-                <div class="space-y-6 text-center md:text-left">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center pt-2 pb-16 md:pb-20">
+                <div class="space-y-6 text-center md:text-left animate-fade-in">
+                    <p class="kicker text-xs sm:text-sm font-bold uppercase text-primary-700">{{ site.data.portfolio.profile.department }} · {{ site.data.portfolio.profile.university }}</p>
+                    <h1 class="font-serif italic font-medium text-3xl sm:text-4xl md:text-5xl text-slate-900 leading-[1.15]">
                         {{ site.data.portfolio.profile.hero_title }}
                     </h1>
-                    <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+                    <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto md:mx-0">
                         {{ site.data.portfolio.profile.home_description }}
                     </p>
-                    <!-- 버튼은 _data/portfolio.yml 의 hero_buttons 목록에서 관리합니다 -->
-                    <div class="flex justify-center md:justify-start gap-4">
-                        {% for btn in site.data.portfolio.hero_buttons %}
-                        {% if forloop.first %}
-                        <button onclick="showPage('{{ btn.target }}')" class="bg-primary-600 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 text-sm">
-                            {{ btn.label }}
+                    <div class="flex justify-center md:justify-start gap-3 pt-2">
+                        <button onclick="showPage('research')" class="bg-primary-700 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:bg-primary-800 transition-all text-sm">
+                            연구분야 보기
                         </button>
-                        {% else %}
-                        <button onclick="showPage('{{ btn.target }}')" class="border-2 border-primary-600 text-primary-600 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:bg-primary-50 transition-all text-sm">
-                            {{ btn.label }}
+                        <button onclick="showPage('about')" class="border border-slate-300 text-slate-700 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold hover:border-primary-600 hover:text-primary-700 transition-all text-sm">
+                            자기소개
                         </button>
-                        {% endif %}
-                        {% endfor %}
                     </div>
                 </div>
                 <div class="relative max-w-sm mx-auto md:max-w-none">
-                    <div class="absolute -top-4 -left-4 w-60 h-60 bg-primary-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-                    <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-102 transition-transform duration-500">
+                    <div class="rounded-2xl overflow-hidden border border-slate-200">
                         <img src="{{ site.data.portfolio.profile.home_lab_image | relative_url }}" alt="Laboratory Image" class="w-full h-auto object-cover">
                     </div>
+                </div>
+            </div>
+
+            <!-- 최신 논문 (Publications 데이터에서 자동으로 최근 3건을 보여줍니다) -->
+            <div class="border-t border-slate-200 pt-10">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="font-serif italic text-xl sm:text-2xl text-slate-900 flex items-center gap-3">
+                        <i class="fa-solid fa-newspaper text-primary-600 text-lg not-italic"></i> Latest Publications
+                    </h2>
+                    <button onclick="showPage('publications')" class="text-xs sm:text-sm font-semibold text-primary-700 hover:text-primary-800 whitespace-nowrap">전체 보기 →</button>
+                </div>
+                <div class="divide-y divide-slate-100 border-y border-slate-100">
+                    {% for pub in site.data.portfolio.publications limit: 3 %}
+                    <a href="javascript:void(0)" onclick="showPage('publications')" class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 py-4 group">
+                        <span class="text-xs font-bold text-slate-400 w-12 shrink-0">{{ pub.year }}</span>
+                        <span class="flex-1 font-semibold text-sm sm:text-base text-slate-800 group-hover:text-primary-700 transition-colors">{{ pub.title }}</span>
+                        <span class="text-xs text-slate-500 italic shrink-0">{{ pub.journal | split: '(' | first | strip }}</span>
+                    </a>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -121,26 +146,28 @@ layout: null
         <section id="about" class="page-section space-y-10">
             <div class="flex flex-col md:flex-row gap-10 items-center md:items-start">
                 <div class="w-full max-w-xs md:w-1/3 text-center space-y-4">
-                    <div class="inline-block p-1 border-4 border-primary-500 rounded-2xl">
-                        <img src="{{ site.data.portfolio.profile.profile_image | relative_url }}" alt="Profile" class="w-full rounded-xl shadow-md">
+                    <div class="inline-block p-1 border-2 border-primary-500 rounded-xl">
+                        <img src="{{ site.data.portfolio.profile.profile_image | relative_url }}" alt="Profile" class="w-full rounded-lg">
                     </div>
                     <h2 class="text-2xl font-bold text-slate-900">{{ site.data.portfolio.profile.english_name }}</h2>
                     <p class="text-primary-700 font-medium italic text-sm">{{ site.data.portfolio.profile.title }}</p>
-                    <!-- 버튼은 _data/portfolio.yml 의 profile.links 목록에서 관리합니다 -->
                     <div class="flex justify-center gap-3">
-                        {% for link in site.data.portfolio.profile.links %}
-                        <a href="{{ link.url }}" target="_blank" title="{{ link.label }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-100"><i class="{{ link.icon }}"></i></a>
-                        {% endfor %}
-                        <a href="mailto:{{ site.data.portfolio.profile.email }}" title="Email" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-100"><i class="fa-solid fa-envelope"></i></a>
+                        {% if site.data.portfolio.profile.github_url %}
+                        <a href="{{ site.data.portfolio.profile.github_url }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-200"><i class="fa-brands fa-github"></i></a>
+                        {% endif %}
+                        {% if site.data.portfolio.profile.scholar_url %}
+                        <a href="{{ site.data.portfolio.profile.scholar_url }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-200"><i class="fa-solid fa-graduation-cap"></i></a>
+                        {% endif %}
+                        <a href="mailto:{{ site.data.portfolio.profile.email }}" class="w-10 h-10 flex items-center justify-center bg-white rounded-full text-slate-600 hover:text-primary-600 shadow-sm border border-slate-200"><i class="fa-solid fa-envelope"></i></a>
                     </div>
                 </div>
                 <div class="w-full md:w-2/3 space-y-6">
-                    <h3 class="text-2xl sm:text-3xl font-bold text-primary-800">Biography</h3>
+                    <h3 class="font-serif italic text-2xl sm:text-3xl text-slate-900">Biography</h3>
                     <p class="text-slate-600 leading-relaxed text-base">
                         {{ site.data.portfolio.profile.biography }}
                     </p>
-                    <div class="bg-white p-6 rounded-2xl border border-primary-100 shadow-sm">
-                        <h4 class="font-bold text-primary-700 mb-3 underline decoration-primary-300">Education</h4>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-primary-800 mb-3">Education</h4>
                         <ul class="space-y-2 text-slate-600 text-sm sm:text-base">
                             {% for edu in site.data.portfolio.profile.education %}
                             <li>• {{ edu.degree }}, {{ edu.institution }}</li>
@@ -153,13 +180,13 @@ layout: null
 
         <!-- RESEARCH SECTION -->
         <section id="research" class="page-section">
-            <h2 class="text-2xl sm:text-3xl font-bold text-primary-800 mb-8 flex items-center gap-3">
-                <i class="fa-solid fa-microscope text-primary-600"></i> Research Areas
+            <h2 class="font-serif italic text-2xl sm:text-3xl text-slate-900 mb-8 flex items-center gap-3">
+                <i class="fa-solid fa-microscope text-primary-600 text-xl not-italic"></i> Research Focus
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {% for res in site.data.portfolio.researches %}
-                <div class="group bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 hover:border-primary-300 transition-all hover:shadow-xl shadow-sm">
-                    <div class="w-12 h-12 bg-primary-100 text-primary-600 rounded-xl flex items-center justify-center mb-4 text-2xl group-hover:rotate-12 transition-transform">
+                <div class="group bg-white p-6 sm:p-8 rounded-xl border border-slate-200 hover:border-primary-300 transition-all hover:shadow-md">
+                    <div class="w-12 h-12 bg-primary-50 text-primary-700 rounded-lg flex items-center justify-center mb-4 text-2xl">
                         <i class="fa-solid {{ res.icon }}"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2 text-slate-900">{{ res.title }}</h3>
@@ -171,53 +198,53 @@ layout: null
 
         <!-- PUBLICATIONS SECTION -->
         <section id="publications" class="page-section">
-            <h2 class="text-2xl sm:text-3xl font-bold text-primary-800 mb-6 flex items-center gap-3">
-                <i class="fa-solid fa-book-open text-primary-600"></i> Publications
+            <h2 class="font-serif italic text-2xl sm:text-3xl text-slate-900 mb-6 flex items-center gap-3">
+                <i class="fa-solid fa-book-open text-primary-600 text-xl not-italic"></i> Publications
             </h2>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-between items-center mb-8 bg-white p-4 rounded-2xl border border-primary-100 shadow-sm w-full">
+            <div class="flex flex-col sm:flex-row gap-4 justify-between items-center mb-8 bg-slate-50 p-4 rounded-xl border border-slate-200 w-full">
                 <div class="flex flex-wrap gap-2 justify-center sm:justify-start w-full sm:w-auto" id="pub-filter-buttons">
-                    <button onclick="filterPubs('all', this)" class="pub-filter-btn active-filter px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-primary-600 text-white shadow-sm">All</button>
-                    <button onclick="filterPubs('Journal', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-primary-100 hover:text-primary-700">Journals</button>
-                    <button onclick="filterPubs('Conference', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-primary-100 hover:text-primary-700">Conferences</button>
-                    <button onclick="filterPubs('Book', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-primary-100 hover:text-primary-700">Books</button>
-                    <button onclick="filterPubs('Thesis', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-primary-100 hover:text-primary-700">Theses</button>
+                    <button onclick="filterPubs('all', this)" class="pub-filter-btn active-filter px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-primary-700 text-white">All</button>
+                    <button onclick="filterPubs('Journal', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:bg-primary-50 hover:text-primary-700">Journals</button>
+                    <button onclick="filterPubs('Conference', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:bg-primary-50 hover:text-primary-700">Conferences</button>
+                    <button onclick="filterPubs('Book', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:bg-primary-50 hover:text-primary-700">Books</button>
+                    <button onclick="filterPubs('Thesis', this)" class="pub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:bg-primary-50 hover:text-primary-700">Theses</button>
                 </div>
 
                 <div class="relative w-full sm:w-60">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                    <input type="text" id="pub-search-input" onkeyup="searchPubs()" placeholder="Search publications..." 
-                           class="w-full pl-9 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-full text-xs focus:outline-none focus:border-primary-500 focus:bg-white transition-all">
+                    <input type="text" id="pub-search-input" onkeyup="searchPubs()" placeholder="Search publications..."
+                           class="w-full pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-full text-xs focus:outline-none focus:border-primary-500 transition-all">
                 </div>
             </div>
 
-            <div class="space-y-4" id="pub-list">
+            <div class="space-y-3" id="pub-list">
                 {% for pub in site.data.portfolio.publications %}
-                <div class="pub-item bg-white p-5 rounded-2xl shadow-sm border border-slate-100 hover:border-primary-200 transition-all duration-300"
+                <div class="pub-item bg-white p-5 rounded-xl border border-slate-200 hover:border-primary-300 transition-all duration-300"
                      data-category="{{ pub.category }}"
                      data-title="{{ pub.title | lowercase }}"
                      data-journal="{{ pub.journal | lowercase }}"
                      data-year="{{ pub.year }}">
-                    
+
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-primary-100 text-primary-700">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-700">
                             {{ pub.category }}
                         </span>
                         <span class="text-xs font-bold text-slate-400">{{ pub.year }}</span>
                     </div>
 
                     <h4 class="font-bold text-slate-900 text-base mb-1 leading-snug">{{ pub.title }}</h4>
-                    <p class="text-xs sm:text-sm text-slate-600 mb-1">{{ pub.authors }}</p> 
+                    <p class="text-xs sm:text-sm text-slate-600 mb-1">{{ pub.authors }}</p>
                     <p class="text-sm text-slate-500 italic mb-3">{{ pub.journal }}</p>
 
                     <div class="flex gap-2">
                         {% if pub.paper_link and pub.paper_link != "#" %}
-                        <a href="{{ pub.paper_link }}" target="_blank" class="text-[10px] bg-slate-100 px-2.5 py-1 rounded-md text-slate-700 font-bold hover:bg-primary-600 hover:text-white transition-colors">
+                        <a href="{{ pub.paper_link }}" target="_blank" class="text-[10px] bg-slate-100 px-2.5 py-1 rounded-md text-slate-700 font-bold hover:bg-primary-700 hover:text-white transition-colors">
                             <i class="fa-solid fa-file-pdf mr-1"></i> Paper
                         </a>
                         {% endif %}
                         {% if pub.code_link and pub.code_link != "" %}
-                        <a href="{{ pub.code_link }}" target="_blank" class="text-[10px] bg-slate-100 px-2.5 py-1 rounded-md text-slate-700 font-bold hover:bg-primary-600 hover:text-white transition-colors">
+                        <a href="{{ pub.code_link }}" target="_blank" class="text-[10px] bg-slate-100 px-2.5 py-1 rounded-md text-slate-700 font-bold hover:bg-primary-700 hover:text-white transition-colors">
                             <i class="fa-brands fa-github mr-1"></i> Code
                         </a>
                         {% endif %}
@@ -229,11 +256,13 @@ layout: null
 
         <!-- TEACHING SECTION -->
         <section id="teaching" class="page-section">
-            <h2 class="text-2xl sm:text-3xl font-bold text-primary-800 mb-8">Teaching</h2>
-            <div class="bg-primary-800 text-white p-6 sm:p-10 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
+            <h2 class="font-serif italic text-2xl sm:text-3xl text-slate-900 mb-8 flex items-center gap-3">
+                <i class="fa-solid fa-chalkboard-user text-primary-600 text-xl not-italic"></i> Teaching
+            </h2>
+            <div class="bg-primary-900 text-white p-6 sm:p-10 rounded-2xl relative overflow-hidden">
                 <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div class="space-y-4">
-                        <h3 class="text-xl sm:text-2xl font-bold text-primary-300">Undergraduate</h3>
+                        <h3 class="text-lg sm:text-xl font-bold text-primary-200 uppercase kicker">Undergraduate</h3>
                         <ul class="space-y-3 opacity-90 text-sm sm:text-base">
                             {% for course in site.data.portfolio.teaching.undergraduate %}
                             <li>• {{ course }}</li>
@@ -241,7 +270,7 @@ layout: null
                         </ul>
                     </div>
                     <div class="space-y-4">
-                        <h3 class="text-xl sm:text-2xl font-bold text-primary-300">Graduate</h3>
+                        <h3 class="text-lg sm:text-xl font-bold text-primary-200 uppercase kicker">Graduate</h3>
                         <ul class="space-y-3 opacity-90 text-sm sm:text-base">
                             {% for course in site.data.portfolio.teaching.graduate %}
                             <li>• {{ course }}</li>
@@ -249,18 +278,21 @@ layout: null
                         </ul>
                     </div>
                 </div>
-                <div class="absolute top-0 right-0 p-10 opacity-5 hidden sm:block">
-                    <i class="fa-solid fa-graduation-cap text-[10rem]"></i>
+                <div class="absolute top-0 right-0 p-10 opacity-[0.06] hidden sm:block">
+                    <i class="fa-solid fa-graduation-cap text-[9rem]"></i>
                 </div>
             </div>
         </section>
 
         <!-- CONTACT SECTION -->
         <section id="contact" class="page-section">
-            <div class="max-w-2xl mx-auto text-center space-y-8 bg-white p-6 sm:p-12 rounded-[2rem] shadow-xl border border-primary-100">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-primary-800 italic underline decoration-primary-400">Get in Touch</h2>
+            <div class="max-w-2xl mx-auto text-center space-y-6 bg-slate-50 p-6 sm:p-12 rounded-2xl border border-slate-200">
+                <span class="inline-block text-xs font-bold uppercase kicker text-primary-700 bg-primary-50 px-3 py-1.5 rounded-full">
+                    <i class="fa-solid fa-graduation-cap"></i> 대학원생 및 공동연구 문의 환영
+                </span>
+                <h2 class="font-serif italic text-2xl sm:text-3xl text-slate-900">Get in Touch</h2>
                 <p class="text-slate-600 text-sm sm:text-base">공동 연구 및 대학원 진학 문의는 아래 이메일로 상시 연락 가능합니다.</p>
-                <div class="space-y-4 text-sm sm:text-lg">
+                <div class="space-y-4 text-sm sm:text-lg pt-2">
                     <p class="flex items-center justify-center gap-3 text-slate-700 break-all px-2">
                         <i class="fa-solid fa-envelope text-primary-600 flex-shrink-0"></i> {{ site.data.portfolio.profile.email }}
                     </p>
@@ -274,8 +306,8 @@ layout: null
     </main>
 
     <!-- Footer -->
-    <footer class="bg-primary-900 text-primary-200 py-10 relative z-10">
-        <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+    <footer class="bg-primary-900 text-primary-200 py-10">
+        <div class="max-w-5xl mx-auto px-4 text-center text-xs sm:text-sm">
             <p class="opacity-80">&copy; {{ site.data.portfolio.profile.english_name }}. All rights reserved.</p>
         </div>
     </footer>
@@ -312,23 +344,19 @@ layout: null
 
         // 2. SPA 페이지 전환 시스템
         function showPage(pageId) {
-            // 모든 섹션 제거
             document.querySelectorAll('.page-section').forEach(section => section.classList.remove('active'));
-            // 모든 내비 활성화 제거
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             document.querySelectorAll('.mobile-nav-link').forEach(link => link.classList.remove('active'));
 
-            // 타겟 활성화
             const targetSection = document.getElementById(pageId);
             if(targetSection) targetSection.classList.add('active');
-            
+
             const desktopNav = document.getElementById('nav-' + pageId);
             if(desktopNav) desktopNav.classList.add('active');
 
             const mobileNav = document.getElementById('mob-nav-' + pageId);
             if(mobileNav) mobileNav.classList.add('active');
 
-            // 이동 후 모바일 드롭다운 메뉴 원상복구
             mobileMenu.classList.add('hidden');
             menuIcon.classList.remove('fa-xmark');
             menuIcon.classList.add('fa-bars');
@@ -350,11 +378,11 @@ layout: null
         function filterPubs(category, btnElement) {
             currentCategory = category;
             document.querySelectorAll('.pub-filter-btn').forEach(btn => {
-                btn.classList.remove('bg-primary-600', 'text-white', 'shadow-sm');
-                btn.classList.add('bg-slate-100', 'text-slate-600');
+                btn.classList.remove('bg-primary-700', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
             });
-            btnElement.classList.remove('bg-slate-100', 'text-slate-600');
-            btnElement.classList.add('bg-primary-600', 'text-white', 'shadow-sm');
+            btnElement.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+            btnElement.classList.add('bg-primary-700', 'text-white');
             applyFilters();
         }
 
@@ -382,84 +410,6 @@ layout: null
                 }
             });
         }
-
-        // 4. 인터랙티브 배경 파티클 그래픽스
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
-
-        const mouse = { x: null, y: null, radius: 120 };
-        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = (Math.random() - 0.5) * 1.0;
-                this.speedY = (Math.random() - 0.5) * 1.0;
-                this.color = '#10b981';
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > width) this.speedX *= -1;
-                if (this.y < 0 || this.y > height) this.speedY *= -1;
-
-                if(mouse.x != null) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < mouse.radius) {
-                        this.x -= dx / 20;
-                        this.y -= dy / 20;
-                    }
-                }
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        const particles = [];
-        const particleCount = Math.min(40, Math.floor(width / 30)); 
-        for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
-
-        function connect() {
-            for (let a = 0; a < particles.length; a++) {
-                for (let b = a; b < particles.length; b++) {
-                    let dx = particles[a].x - particles[b].x;
-                    let dy = particles[a].y - particles[b].y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 130) {
-                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 - (distance / 130) * 0.15})`;
-                        ctx.lineWidth = 0.6;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            connect();
-            requestAnimationFrame(animate);
-        }
-        animate();
     </script>
 </body>
 </html>
